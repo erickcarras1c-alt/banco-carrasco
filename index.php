@@ -1,6 +1,6 @@
 <?php
 require_once 'config/conexion.php';
-require_once 'model/UsuarioModels.php';
+require_once 'models/UsuarioModel.php';
 require_once 'controllers/BancoController.php';
 
 $accion = isset($_GET['accion']) ? $_GET['accion'] : 'inicio';
@@ -14,17 +14,14 @@ switch ($accion) {
     case 'retiro':
         $controlador->retiro();
         break;
- 
     case 'listar':
-        $controlador->login();
+        $controlador->listarUsuarios();
         break;
     case 'auditoria':
-        $controlador->login();
+        echo "Auditoría no implementada.";
         break;
-        
     default:
-        echo "Bienvenido al Sistema Bancario . <br>";
-        echo "Prueba en la URL con: ?accion=login&u=admin&p=1234";
+        $controlador->inicio();
         break;
 }
 ?>
