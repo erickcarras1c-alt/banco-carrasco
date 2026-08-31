@@ -1,0 +1,9 @@
+banco_carrasco/
+│
+├── config/
+│   └── database.php
+├── models/
+│   └── UsuarioModel.php
+├── controllers/
+│   └── BancoController.php
+└── index.php
