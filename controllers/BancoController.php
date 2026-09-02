@@ -18,24 +18,31 @@ class BancoController {
         $mensaje = '';
         $usuarioLogueado = null;
 
-        // NUEVO: Validar credenciales si se envía usuario y contraseña
+        // Validar credenciales si se envía usuario y contraseña
         if ($user != '' && $pass != '') {
             $usuarioLogueado = $this->modelo->verificarLogin($user, $pass);
             if ($usuarioLogueado) {
-                // NUEVO: Guardar usuario en la sesión para mantenerlo conectado
+                // Guardar usuario en la sesión para mantenerlo conectado
                 $_SESSION['usuario'] = $usuarioLogueado;
                 $mensaje = "LOGIN EXITOSO.";
             } else {
                 $mensaje = "ERROR: Credenciales incorrectas.";
             }
         } 
-        // NUEVO: Cargar sesión activa si no se enviaron datos en la URL/Formulario
+        // Cargar sesión activa si no se enviaron datos en la URL/Formulario
         else if (isset($_SESSION['usuario'])) {
             $usuarioLogueado = $_SESSION['usuario'];
         }
 
         $titulo = "Login";
         include 'views/login.php';
+    }
+
+    // NUEVO: Método para cerrar sesión
+    public function logout() {
+        session_destroy(); // Elimina los datos guardados en la sesión
+        header("Location: index.php?accion=login"); // Redirige a la página de login
+        exit();
     }
 
     public function retiro() {

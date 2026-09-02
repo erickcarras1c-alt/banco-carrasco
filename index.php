@@ -14,6 +14,9 @@ switch ($accion) {
     case 'login':
         $controlador->login();
         break;
+    case 'logout': // NUEVO: Caso para destruir la sesión y cerrar cuenta
+        $controlador->logout();
+        break;
     case 'retiro':
         $controlador->retiro();
         break;
