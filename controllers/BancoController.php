@@ -18,18 +18,15 @@ class BancoController {
         $mensaje = '';
         $usuarioLogueado = null;
 
-        // Validar credenciales si se envía usuario y contraseña
         if ($user != '' && $pass != '') {
             $usuarioLogueado = $this->modelo->verificarLogin($user, $pass);
             if ($usuarioLogueado) {
-                // Guardar usuario en la sesión para mantenerlo conectado
                 $_SESSION['usuario'] = $usuarioLogueado;
                 $mensaje = "LOGIN EXITOSO.";
             } else {
                 $mensaje = "ERROR: Credenciales incorrectas.";
             }
         } 
-        // Cargar sesión activa si no se enviaron datos en la URL/Formulario
         else if (isset($_SESSION['usuario'])) {
             $usuarioLogueado = $_SESSION['usuario'];
         }
@@ -38,33 +35,50 @@ class BancoController {
         include 'views/login.php';
     }
 
-    // NUEVO: Método para cerrar sesión
     public function logout() {
-        session_destroy(); // Elimina los datos guardados en la sesión
-        header("Location: index.php?accion=login"); // Redirige a la página de login
+        session_destroy();
+        header("Location: index.php?accion=login");
         exit();
     }
 
     public function retiro() {
-        $idUsuario = 1;
-        $saldoActual = 1500;
-        $montoRetiro = isset($_GET['monto']) ? $_GET['monto'] : 0;
         $mensaje = '';
-        $nuevoSaldo = $saldoActual;
-
-        if ($montoRetiro > 0) {
-            if ($montoRetiro <= $saldoActual) {
-                $nuevoSaldo = $saldoActual - $montoRetiro;
-                $this->modelo->actualizarSaldo($idUsuario, $nuevoSaldo);
-                $mensaje = "RETIRO APROBADO.";
-            } else {
-                $mensaje = "ERROR: Fondos insuficientes.";
-            }
+        
+        if (!isset($_SESSION['usuario'])) {
+            $mensaje = "ERROR: Debe iniciar sesión para operar.";
+            $saldoActual = 0;
         } else {
-            $mensaje = "Por favor, indique el monto a retirar en la URL (monto=X).";
+            $usuario = $_SESSION['usuario'];
+            $idUsuario = $usuario['id_usuario'];
+            $saldoActual = $usuario['saldo'];
+            
+            $monto = isset($_POST['monto']) ? (float)$_POST['monto'] : 0;
+            $tipoOperacion = isset($_POST['operacion']) ? $_POST['operacion'] : '';
+
+            if ($monto > 0) {
+                // NUEVO: Procesar según la operación seleccionada (Depositar o Retirar)
+                if ($tipoOperacion === 'depositar') {
+                    $nuevoSaldo = $saldoActual + $monto;
+                    $this->modelo->actualizarSaldo($idUsuario, $nuevoSaldo);
+                    $_SESSION['usuario']['saldo'] = $nuevoSaldo;
+                    $saldoActual = $nuevoSaldo;
+                    $mensaje = "DEPÓSITO EXITOSO. Ha ingresado $" . number_format($monto, 2);
+                } 
+                else if ($tipoOperacion === 'retirar') {
+                    if ($monto <= $saldoActual) {
+                        $nuevoSaldo = $saldoActual - $monto;
+                        $this->modelo->actualizarSaldo($idUsuario, $nuevoSaldo);
+                        $_SESSION['usuario']['saldo'] = $nuevoSaldo;
+                        $saldoActual = $nuevoSaldo;
+                        $mensaje = "RETIRO APROBADO. Ha retirado $" . number_format($monto, 2);
+                    } else {
+                        $mensaje = "ERROR: Fondos insuficientes.";
+                    }
+                }
+            }
         }
 
-        $titulo = "Retiro";
+        $titulo = "Operaciones";
         include 'views/retiro.php';
     }
 

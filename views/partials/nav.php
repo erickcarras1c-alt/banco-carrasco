@@ -8,7 +8,8 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="index.php?accion=login">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php?accion=retiro">Retiro</a></li>
+                <!-- Cambiado 'Retiro' por 'Operaciones' -->
+                <li class="nav-item"><a class="nav-link" href="index.php?accion=retiro">Operaciones</a></li>
                 <li class="nav-item"><a class="nav-link" href="index.php?accion=listar">Usuarios</a></li>
             </ul>
         </div>
