@@ -12,8 +12,10 @@ class BancoController {
     }
 
     public function login() {
-        $user = isset($_GET['u']) ? $_GET['u'] : '';
-        $pass = isset($_GET['p']) ? $_GET['p'] : '';
+        // NUEVO: Se usa $_REQUEST en lugar de $_GET para recibir datos del formulario (POST) o de la URL (GET)
+        $user = isset($_REQUEST['u']) ? $_REQUEST['u'] : '';
+        $pass = isset($_REQUEST['p']) ? $_REQUEST['p'] : '';
+        
         $mensaje = '';
         $usuarioLogueado = null;
 

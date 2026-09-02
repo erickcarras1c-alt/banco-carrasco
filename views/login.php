@@ -1,4 +1,4 @@
-<?php include 'views/partials/header.php'; ?>
+<?ph<?php include 'views/partials/header.php'; ?>
 <?php include 'views/partials/nav.php'; ?>
 
 <div class="container mt-4">
@@ -15,6 +15,20 @@
             </div>
         </div>
     <?php endif; ?>
+
+    <!-- NUEVO: Formulario sencillo de inicio de sesión -->
+    <form action="index.php?accion=login" method="POST" class="mt-3">
+        <div class="mb-2">
+            <label>Usuario:</label>
+            <input type="text" name="u" class="form-control" required>
+        </div>
+        <div class="mb-2">
+            <label>Contraseña:</label>
+            <input type="password" name="p" class="form-control" required>
+        </div>
+        <!-- NUEVO: Botón para enviar las credenciales -->
+        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+    </form>
 </div>
 
 <?php include 'views/partials/footer.php'; ?>
