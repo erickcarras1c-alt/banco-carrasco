@@ -1,5 +1,5 @@
-<?php include 'vista/partials/header.php'; ?>
-<?php include 'vista/partials/nav.php'; ?>
+<?php include 'views/partials/header.php'; ?>
+<?php include 'views/partials/nav.php'; ?>
 
 <div class="container mt-4">
     <h2>Login</h2>
@@ -17,4 +17,4 @@
     <?php endif; ?>
 </div>
 
-<?php include 'vista/partials/footer.php'; ?>
+<?php include 'views/partials/footer.php'; ?>
