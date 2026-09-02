@@ -12,22 +12,26 @@ class BancoController {
     }
 
     public function login() {
-        // NUEVO: Se usa $_REQUEST en lugar de $_GET para recibir datos del formulario (POST) o de la URL (GET)
         $user = isset($_REQUEST['u']) ? $_REQUEST['u'] : '';
         $pass = isset($_REQUEST['p']) ? $_REQUEST['p'] : '';
         
         $mensaje = '';
         $usuarioLogueado = null;
 
+        // NUEVO: Validar credenciales si se envía usuario y contraseña
         if ($user != '' && $pass != '') {
             $usuarioLogueado = $this->modelo->verificarLogin($user, $pass);
             if ($usuarioLogueado) {
+                // NUEVO: Guardar usuario en la sesión para mantenerlo conectado
+                $_SESSION['usuario'] = $usuarioLogueado;
                 $mensaje = "LOGIN EXITOSO.";
             } else {
                 $mensaje = "ERROR: Credenciales incorrectas.";
             }
-        } else {
-            $mensaje = "ADVERTENCIA: Falta ingresar usuario (u) o password (p).";
+        } 
+        // NUEVO: Cargar sesión activa si no se enviaron datos en la URL/Formulario
+        else if (isset($_SESSION['usuario'])) {
+            $usuarioLogueado = $_SESSION['usuario'];
         }
 
         $titulo = "Login";

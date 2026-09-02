@@ -1,4 +1,7 @@
 <?php
+// NUEVO: Iniciar manejo de sesiones para recordar al usuario navegando entre páginas
+session_start();
+
 require_once 'config/conexion.php';
 require_once 'models/UsuarioModel.php';
 require_once 'controllers/BancoController.php';
