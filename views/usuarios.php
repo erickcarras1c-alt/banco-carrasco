@@ -17,7 +17,14 @@
                 <tr>
                     <td><?= $usuario['id_usuario'] ?></td>
                     <td><?= htmlspecialchars($usuario['nombre_usuario']) ?></td>
-                    <td>$<?= number_format($usuario['saldo'], 2) ?></td>
+                    <td>
+                        <!-- NUEVO: Verificar si hay sesión activa y si el ID coincide con el usuario logueado -->
+                        <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']['id_usuario'] == $usuario['id_usuario']): ?>
+                            $<?= number_format($usuario['saldo'], 2) ?>
+                        <?php else: ?>
+                            $***
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
